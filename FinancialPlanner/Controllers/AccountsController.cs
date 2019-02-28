@@ -40,7 +40,7 @@ namespace FinancialPlanner.Controllers
         public ActionResult Create()
         {
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "FirstName");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace FinancialPlanner.Controllers
             }
 
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "FirstName", account.UserId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", account.UserId);
             return View(account);
         }
 
@@ -76,7 +76,7 @@ namespace FinancialPlanner.Controllers
                 return HttpNotFound();
             }
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "FirstName", account.UserId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", account.UserId);
             return View(account);
         }
 
@@ -94,7 +94,7 @@ namespace FinancialPlanner.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "FirstName", account.UserId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", account.UserId);
             return View(account);
         }
 

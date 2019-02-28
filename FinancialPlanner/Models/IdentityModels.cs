@@ -59,8 +59,6 @@ namespace FinancialPlanner.Models
 
         public System.Data.Entity.DbSet<FinancialPlanner.Models.Household> Households { get; set; }
 
-        public System.Data.Entity.DbSet<FinancialPlanner.Models.ApplicationUser> ApplicationUsers { get; set; }
-
         public System.Data.Entity.DbSet<FinancialPlanner.Models.Budget> Budgets { get; set; }
 
         public System.Data.Entity.DbSet<FinancialPlanner.Models.BudgetItem> BudgetItems { get; set; }

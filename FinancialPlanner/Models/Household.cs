@@ -11,6 +11,7 @@ namespace FinancialPlanner.Models
         
         public string Name { get; set; }
         public string Greeting { get; set; }
+        public Guid Key { get; set; }
 
         public virtual ICollection<Budget> Budgets { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }

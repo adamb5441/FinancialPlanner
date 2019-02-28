@@ -39,7 +39,7 @@ namespace FinancialPlanner.Controllers
         // GET: Notifications/Create
         public ActionResult Create()
         {
-            ViewBag.RecipientId = new SelectList(db.ApplicationUsers, "Id", "FirstName");
+            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace FinancialPlanner.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RecipientId = new SelectList(db.ApplicationUsers, "Id", "FirstName", notification.RecipientId);
+            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", notification.RecipientId);
             return View(notification);
         }
 
@@ -73,7 +73,7 @@ namespace FinancialPlanner.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RecipientId = new SelectList(db.ApplicationUsers, "Id", "FirstName", notification.RecipientId);
+            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", notification.RecipientId);
             return View(notification);
         }
 
@@ -90,7 +90,7 @@ namespace FinancialPlanner.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RecipientId = new SelectList(db.ApplicationUsers, "Id", "FirstName", notification.RecipientId);
+            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", notification.RecipientId);
             return View(notification);
         }
 
