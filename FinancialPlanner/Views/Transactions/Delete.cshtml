@@ -1,0 +1,88 @@
+﻿@model FinancialPlanner.Models.Transaction
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Account.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BudgetItem.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BudgetItem.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.enteredBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.enteredBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reaconciled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reaconciled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReconciledAmout)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReconciledAmout)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
