@@ -27,7 +27,7 @@ namespace FinancialPlanner.Models
 
         public ICollection<Transaction> Transactions { get; set; }
 
-        Account()
+        public Account()
         {
             Transactions = new HashSet<Transaction>();
         }

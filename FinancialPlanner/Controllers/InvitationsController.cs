@@ -4,9 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
+using Microsoft.AspNet.Identity;
 
 namespace FinancialPlanner.Controllers
 {
@@ -14,7 +17,7 @@ namespace FinancialPlanner.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Invitations
+
         public ActionResult Index()
         {
             var invitations = db.Invitations.Include(i => i.Household);
@@ -48,13 +51,31 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,Key,Email,Created,Expires,Expired")] Invitation invitation)
+        public async Task<ActionResult> Create([Bind(Include = "Id,HouseholdId,Key,Email,Created,Expires,Expired")] Invitation invitation)
         {
             if (ModelState.IsValid)
             {
+                invitation.Created = DateTime.Now;
+                invitation.Expires = DateTime.Now.AddDays(1);
+
                 db.Invitations.Add(invitation);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+
+                var callbackUrl = Url.Action("Accept", "Invitation", new { Id = invitation .Id}, protocol: Request.Url.Scheme);
+                var from = "FiinancialPlanner<Fin@Plan.com>";
+                var emailto = invitation.Email;
+                var email = new MailMessage(from, emailto)
+                {
+                    Subject = "You have an invitation to join a household",
+                    Body = "Join the household by clicking <a href=\"" + callbackUrl + "\">here</a>",
+                    IsBodyHtml = true
+                };
+
+                var svc = new PersonalEmail();
+                await svc.SendAsync(email);
+
+                return RedirectToAction("Index","Home");
             }
 
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
@@ -62,7 +83,7 @@ namespace FinancialPlanner.Controllers
         }
 
         // GET: Invitations/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Accept(int? id)
         {
             if (id == null)
             {
@@ -81,17 +102,21 @@ namespace FinancialPlanner.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Key,Email,Created,Expires,Expired")] Invitation invitation)
+        public ActionResult Accept(int Id)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(invitation).State = EntityState.Modified;
+            
+                var invitation = db.Invitations.Find(Id);
+                invitation.Expired = true;
+                db.Entry(invitation).Property(x => x.Expired).IsModified = true;
+                var userId = User.Identity.GetUserId();
+                var user = db.Users.Find(userId);
+                user.HouseholdId = invitation.HouseholdId;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
-            }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
-            return View(invitation);
+            
         }
 
         // GET: Invitations/Delete/5

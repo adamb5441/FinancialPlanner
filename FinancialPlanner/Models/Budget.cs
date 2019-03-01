@@ -23,12 +23,10 @@ namespace FinancialPlanner.Models
         public virtual Household Household { get; set; }
 
         public ICollection<BudgetItem> BudgetItems { get; set; }
-        public ICollection<ApplicationUser> Users { get; set; }
 
-        Budget()
+        public Budget()
         {
             BudgetItems = new HashSet<BudgetItem>(); 
-            Users = new HashSet<ApplicationUser>();
         }
 
     }

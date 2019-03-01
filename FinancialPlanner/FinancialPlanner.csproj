@@ -187,7 +187,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\InvitationHelper.cs" />
     <Compile Include="Helpers\TransactionHelper.cs" />
+    <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -225,6 +227,7 @@
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="private.config" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -301,7 +304,7 @@
     <Content Include="Views\Invitations\Create.cshtml" />
     <Content Include="Views\Invitations\Delete.cshtml" />
     <Content Include="Views\Invitations\Details.cshtml" />
-    <Content Include="Views\Invitations\Edit.cshtml" />
+    <Content Include="Views\Invitations\Accept.cshtml" />
     <Content Include="Views\Invitations\Index.cshtml" />
     <Content Include="Views\Notifications\Create.cshtml" />
     <Content Include="Views\Notifications\Delete.cshtml" />
@@ -315,6 +318,7 @@
     <Content Include="Views\Transactions\Index.cshtml" />
     <Content Include="Views\Shared\_ShowAccounts.cshtml" />
     <Content Include="Views\Shared\_ShowHousehold.cshtml" />
+    <Content Include="Views\Shared\_CreateOrJoin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

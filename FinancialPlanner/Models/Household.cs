@@ -18,7 +18,7 @@ namespace FinancialPlanner.Models
         public virtual ICollection<Account> Accounts { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }
 
-        Household()
+        public Household()
         {
             Budgets = new HashSet<Budget>();
             Users = new HashSet<ApplicationUser>();

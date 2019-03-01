@@ -1,0 +1,17 @@
+﻿@model FinancialPlanner.Models.Invitation
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.Id)
+    <button> accept</button>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

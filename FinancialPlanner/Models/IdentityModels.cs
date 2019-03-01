@@ -11,18 +11,18 @@ namespace FinancialPlanner.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        public int? BudgetId { get; set; }
+        public int? HouseholdId { get; set; }
         [Display(Name = "First Name")]
-        [Required,MaxLength(40),MinLength(1)]
+        //[Required,MaxLength(40),MinLength(1)]
         public string FirstName { get; set; }
-        [Required,MaxLength(40),MinLength(1)]
+        //[Required,MaxLength(40),MinLength(1)]
         [Display(Name = "Last Name")]
         public string LasrName { get; set; }
-        [Required,MaxLength(40),MinLength(1)]
+        //[Required,MaxLength(40),MinLength(1)]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
 
-        public virtual Budget Budget { get; set; }
+        public virtual Household Household { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }

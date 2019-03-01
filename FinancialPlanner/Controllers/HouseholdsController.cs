@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
+using Microsoft.AspNet.Identity;
 
 namespace FinancialPlanner.Controllers
 {
@@ -50,9 +51,15 @@ namespace FinancialPlanner.Controllers
         {
             if (ModelState.IsValid)
             {
+                household.Key = Guid.NewGuid();
                 db.Households.Add(household);
+                var userId = User.Identity.GetUserId();
+                var user = db.Users.Find(userId);
+                user.HouseholdId = household.Id;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+
+                return RedirectToAction("Details");
             }
 
             return View(household);
