@@ -51,18 +51,19 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,HouseholdId,Key,Email,Created,Expires,Expired")] Invitation invitation)
+        public async Task<ActionResult> Create([Bind(Include = "Id,HouseholdId,Email")] Invitation invitation)
         {
             if (ModelState.IsValid)
             {
                 invitation.Created = DateTime.Now;
                 invitation.Expires = DateTime.Now.AddDays(1);
+                invitation.Key = Guid.NewGuid();
 
                 db.Invitations.Add(invitation);
                 db.SaveChanges();
 
 
-                var callbackUrl = Url.Action("Accept", "Invitation", new { Id = invitation .Id}, protocol: Request.Url.Scheme);
+                var callbackUrl = Url.Action("Accept", "Invitations", new { Id = invitation.Key}, protocol: Request.Url.Scheme);
                 var from = "FiinancialPlanner<Fin@Plan.com>";
                 var emailto = invitation.Email;
                 var email = new MailMessage(from, emailto)
@@ -82,14 +83,10 @@ namespace FinancialPlanner.Controllers
             return View(invitation);
         }
 
-        // GET: Invitations/Edit/5
-        public ActionResult Accept(int? id)
+        public ActionResult Accept(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Invitation invitation = db.Invitations.Find(id);
+
+            Invitation invitation = db.Invitations.FirstOrDefault(i => i.Key.ToString() == id);
             if (invitation == null)
             {
                 return HttpNotFound();
@@ -98,16 +95,15 @@ namespace FinancialPlanner.Controllers
             return View(invitation);
         }
 
-        // POST: Invitations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Accept(int Id)
+        public ActionResult Accept(Guid key)
         {
-            
-                var invitation = db.Invitations.Find(Id);
+            var invitation = db.Invitations.FirstOrDefault(i => i.Key == key);
+            if (invitation.Expires > DateTime.Now)
+            {
                 invitation.Expired = true;
                 db.Entry(invitation).Property(x => x.Expired).IsModified = true;
                 var userId = User.Identity.GetUserId();
@@ -116,7 +112,11 @@ namespace FinancialPlanner.Controllers
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
-            
+            }
+            else
+            {
+                return View(invitation);
+            }
         }
 
         // GET: Invitations/Delete/5
