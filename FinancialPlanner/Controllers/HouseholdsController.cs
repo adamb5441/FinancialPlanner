@@ -21,14 +21,12 @@ namespace FinancialPlanner.Controllers
             return View(db.Households.ToList());
         }
 
-        // GET: Households/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Household household = db.Households.Find(id);
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+
+            Household household = db.Households.Find(user.HouseholdId);
             if (household == null)
             {
                 return HttpNotFound();
@@ -121,7 +119,23 @@ namespace FinancialPlanner.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        public ActionResult LeaveHousehold(int Id)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            if(user == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var houseHold = db.Households.Find(Id);
+            if (houseHold == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            houseHold.Users.Remove(user);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

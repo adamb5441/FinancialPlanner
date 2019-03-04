@@ -13,12 +13,12 @@ namespace FinancialPlanner.Models
     {
         public int? HouseholdId { get; set; }
         [Display(Name = "First Name")]
-        //[Required,MaxLength(40),MinLength(1)]
+        [Required,MaxLength(40),MinLength(1)]
         public string FirstName { get; set; }
-        //[Required,MaxLength(40),MinLength(1)]
+        [Required,MaxLength(40),MinLength(1)]
         [Display(Name = "Last Name")]
-        public string LasrName { get; set; }
-        //[Required,MaxLength(40),MinLength(1)]
+        public string LastName { get; set; }
+        [Required,MaxLength(40),MinLength(1)]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
 
@@ -68,5 +68,7 @@ namespace FinancialPlanner.Models
         public System.Data.Entity.DbSet<FinancialPlanner.Models.Notification> Notifications { get; set; }
 
         public System.Data.Entity.DbSet<FinancialPlanner.Models.Transaction> Transactions { get; set; }
+
+        public System.Data.Entity.DbSet<FinancialPlanner.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
