@@ -17,7 +17,7 @@ namespace FinancialPlanner.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            var applicationUsers = db.ApplicationUsers.Include(a => a.Household);
+            var applicationUsers = db.Users.Include(a => a.Household);
             return View(applicationUsers.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace FinancialPlanner.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.ApplicationUsers.Find(id);
+            ApplicationUser applicationUser = db.Users.Find(id);
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -52,7 +52,7 @@ namespace FinancialPlanner.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ApplicationUsers.Add(applicationUser);
+                db.Users.Add(applicationUser);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -68,7 +68,7 @@ namespace FinancialPlanner.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.ApplicationUsers.Find(id);
+            ApplicationUser applicationUser = db.Users.Find(id);
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -109,7 +109,7 @@ namespace FinancialPlanner.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.ApplicationUsers.Find(id);
+            ApplicationUser applicationUser = db.Users.Find(id);
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -122,8 +122,8 @@ namespace FinancialPlanner.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            ApplicationUser applicationUser = db.ApplicationUsers.Find(id);
-            db.ApplicationUsers.Remove(applicationUser);
+            ApplicationUser applicationUser = db.Users.Find(id);
+            db.Users.Remove(applicationUser);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

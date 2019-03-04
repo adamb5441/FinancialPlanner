@@ -1,5 +1,7 @@
 namespace FinancialPlanner.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -18,6 +20,19 @@ namespace FinancialPlanner.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            if (!context.Roles.Any(r => r.Name == "Head"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Head" });
+            }
+            if (!context.Roles.Any(r => r.Name == "Member"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Member" });
+            }
+            if (!context.Roles.Any(r => r.Name == "none"))
+            {
+                roleManager.Create(new IdentityRole { Name = "none" });
+            }
         }
     }
 }

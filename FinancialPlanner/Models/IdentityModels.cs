@@ -69,6 +69,5 @@ namespace FinancialPlanner.Models
 
         public System.Data.Entity.DbSet<FinancialPlanner.Models.Transaction> Transactions { get; set; }
 
-        public System.Data.Entity.DbSet<FinancialPlanner.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

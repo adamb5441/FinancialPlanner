@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using FinancialPlanner.Helpers;
 using FinancialPlanner.Models;
 using Microsoft.AspNet.Identity;
 
@@ -13,6 +14,7 @@ namespace FinancialPlanner.Controllers
 {
     public class HouseholdsController : Controller
     {
+        private UserRoleHelper userRoleHelper = new UserRoleHelper();
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Households
@@ -54,6 +56,9 @@ namespace FinancialPlanner.Controllers
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.Find(userId);
                 user.HouseholdId = household.Id;
+
+                userRoleHelper.AddUsertoRole(userId, "Head");
+
                 db.SaveChanges();
 
 
@@ -133,6 +138,8 @@ namespace FinancialPlanner.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             houseHold.Users.Remove(user);
+            userRoleHelper.RemoveUserFromRole(userId, "none");
+
             db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }

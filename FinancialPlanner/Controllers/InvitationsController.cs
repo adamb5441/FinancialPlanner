@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using FinancialPlanner.Helpers;
 using FinancialPlanner.Models;
 using Microsoft.AspNet.Identity;
 
@@ -15,6 +16,7 @@ namespace FinancialPlanner.Controllers
 {
     public class InvitationsController : Controller
     {
+        private UserRoleHelper userRoleHelper = new UserRoleHelper();
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
@@ -109,9 +111,11 @@ namespace FinancialPlanner.Controllers
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.Find(userId);
                 user.HouseholdId = invitation.HouseholdId;
+                userRoleHelper.AddUsertoRole(userId, "Member");
+
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {

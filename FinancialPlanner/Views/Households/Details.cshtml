@@ -26,9 +26,20 @@
             @Html.DisplayFor(model => model.Greeting)
         </dd>
 
+
+        @foreach (var user in Model.Users)
+        {
+            <dd>
+                @Html.Raw(user.DisplayName)
+            </dd>
+        }
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Leave Household", "LeaveHousehold", new { id = Model.Id }) |    
+    @Html.ActionLink("Invite user", "Create", "Invitations") |
+
+
 </p>

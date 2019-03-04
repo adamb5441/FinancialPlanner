@@ -1,4 +1,5 @@
 ﻿@model FinancialPlanner.Models.ApplicationUser
+@using Microsoft.AspNet.Identity;
 
 @{
     ViewBag.Title = "Details";
@@ -134,5 +135,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Change Password", "ResetPassword", "Account", new { id = User.Identity.GetUserId() })
 </p>
