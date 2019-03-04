@@ -1,22 +1,23 @@
-﻿						
+﻿
 <div class="col-md-6">
-    HOUSEHOLD
     <div class="tabs">
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="#popular" data-toggle="tab">Create</a>
+                <a href="#a" data-toggle="tab"><i class="fa fa-star"></i> Create</a>
             </li>
             <li>
-                <a href="#recent" data-toggle="tab">Join</a>
+                <a href="#b" data-toggle="tab">Join</a>
             </li>
         </ul>
         <div class="tab-content">
-            <div id="popular" class="tab-pane active">
-                <a href=@Url.Action("Create","Households")>create household</a>
+            <div id="a" class="tab-pane active">
+                <a class="btn btn-primary" href=@Url.Action("Create","Households")>create household</a>
             </div>
-            <div id="recent" class="tab-pane">
-                <p>Recent</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
+            <div id="b" class="tab-pane">
+                <div style="display: flex; margin: 10px">
+                    <input class="form-control" />
+                    <button class="btn btn-primary">join</button>
+                </div>
             </div>
         </div>
     </div>
