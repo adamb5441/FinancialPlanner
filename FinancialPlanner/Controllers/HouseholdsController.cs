@@ -138,7 +138,10 @@ namespace FinancialPlanner.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             houseHold.Users.Remove(user);
-            userRoleHelper.RemoveUserFromRole(userId, "none");
+            var role = userRoleHelper.ListUserRoles(userId).FirstOrDefault();
+            userRoleHelper.RemoveUserFromRole(userId, role);
+
+            userRoleHelper.AddUsertoRole(userId, "none");
 
             db.SaveChanges();
             return RedirectToAction("Index", "Home");

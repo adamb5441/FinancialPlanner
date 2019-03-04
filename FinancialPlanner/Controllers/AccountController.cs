@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FinancialPlanner.Models;
 using System.Net.Mail;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace FinancialPlanner.Controllers
 {
@@ -248,7 +249,6 @@ namespace FinancialPlanner.Controllers
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -262,12 +262,12 @@ namespace FinancialPlanner.Controllers
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            AddErrors(result);
-            return View();
+            UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+
+            userManager.RemovePassword(User.Identity.GetUserId());
+
+            userManager.AddPassword(User.Identity.GetUserId(), model.Password);
+            return RedirectToAction("ResetPasswordConfirmation", "Account");
         }
 
         //

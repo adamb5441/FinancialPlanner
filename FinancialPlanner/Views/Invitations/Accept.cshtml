@@ -9,7 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.Key)
     <button> accept</button>
 }
 

@@ -104,13 +104,15 @@ namespace FinancialPlanner.Controllers
         public ActionResult Accept(Guid key)
         {
             var invitation = db.Invitations.FirstOrDefault(i => i.Key == key);
-            if (invitation.Expires > DateTime.Now)
+            if (invitation.Expires > DateTime.Now || invitation.Expired)
             {
                 invitation.Expired = true;
                 db.Entry(invitation).Property(x => x.Expired).IsModified = true;
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.Find(userId);
                 user.HouseholdId = invitation.HouseholdId;
+                var role = userRoleHelper.ListUserRoles(userId).FirstOrDefault();
+                userRoleHelper.RemoveUserFromRole(userId, role);
                 userRoleHelper.AddUsertoRole(userId, "Member");
 
                 db.SaveChanges();
@@ -119,7 +121,7 @@ namespace FinancialPlanner.Controllers
             }
             else
             {
-                return View(invitation);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
 
