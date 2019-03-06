@@ -1,57 +1,148 @@
 ﻿@model FinancialPlanner.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    Layout = null;
 }
 
-<h2>@ViewBag.Title.</h2>
+<head>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" }) 
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+    <!-- Vendor CSS -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/magnific-popup.css" rel="stylesheet" />
+    <!-- Theme CSS -->
+    <link href="~/Content/theme.css" rel="stylesheet" />
+
+    <!-- Skin CSS -->
+    <link href="~/Content/skins/default.css" rel="stylesheet" />
+
+    <!-- Theme Custom CSS -->
+    <link href="~/Content/theme-custom.css" rel="stylesheet" />
+    <!-- Head Libs -->
+    <script src="~/Scripts/modernizr.js"></script>
+
+</head>
+<body>
+
+    <section class="body-sign">
+        <div class="center-sign">
+
+            <div class="panel panel-sign">
+                <div class="panel-title-sign mt-xl text-right">
+                    <h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Sign Up</h2>
+                </div>
+                <div class="panel-body">
+                    <a href="/" class="logo pull-left">
+                        <img src="~/Imgs/Finite.jpg" height="54" />
+                    </a>
+                    <br />
+                    <br />
+                    <br />
+                    <hr />
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group mb-lg">
+                            <label>First Name</label>
+                            <div class="input-group input-group-icon">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-lg" })
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div> <div class="form-group mb-lg">
+                            <label>Last Name</label>
+                            <div class="input-group input-group-icon">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control input-lg" })
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div> <div class="form-group mb-lg">
+                            <label>Display Name</label>
+                            <div class="input-group input-group-icon">
+                                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control input-lg" })
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-lg">
+                            <label>Email</label>
+                            <div class="input-group input-group-icon">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg" })
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-lg">
+                            <div class="clearfix">
+                                <label class="pull-left">Password</label>
+                                <a href="pages-recover-password.html" class="pull-right">Lost Password?</a>
+                            </div>
+                            <div class="input-group input-group-icon">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group mb-lg">
+                            <div class="clearfix">
+                                <label class="pull-left">Confirm Password</label>
+                                <a href="pages-recover-password.html" class="pull-right">Lost Password?</a>
+                            </div>
+                            <div class="input-group input-group-icon">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                    }
+                    <span class="mt-lg mb-lg line-thru text-center text-uppercase">
+                        <span>or</span>
+                    </span>
+
+                    <div class="mb-xs text-center">
+                        <a class="btn btn-primary mb-md ml-xs mr-xs">Demo Login</a>
+
+                    </div>
+
+                    <p class="text-center">
+                        Don't have an account yet? @Html.ActionLink("sign Up", "Register")
+                    </p>
+                    <p class="text-center">
+                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                    </p>
+
+                </div>
+            </div>
         </div>
-    </div> <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div> <div class="form-group">
-        @Html.LabelFor(m => m.DisplayName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
+    </section>
+
+
+</body>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+
