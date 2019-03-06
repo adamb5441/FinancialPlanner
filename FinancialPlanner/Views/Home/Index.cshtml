@@ -16,3 +16,17 @@ else
 {
     @Html.Partial("_CreateOrJoin")
 }
+
+@section scripts{
+    <script>
+        const newuser = '@TempData["New"]';
+        if (newuser == 'new') {
+            Swal.fire({
+                type: 'success',
+                title: 'You have been added to the house',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
+    </script>
+    }

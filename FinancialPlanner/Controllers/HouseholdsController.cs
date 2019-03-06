@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Helpers;
@@ -16,6 +17,7 @@ namespace FinancialPlanner.Controllers
     {
         private UserRoleHelper userRoleHelper = new UserRoleHelper();
         private ApplicationDbContext db = new ApplicationDbContext();
+        private HouseholdHelper householdHelper = new HouseholdHelper();
 
         // GET: Households
         public ActionResult Index()
@@ -47,7 +49,7 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Greeting")] Household household)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Greeting")] Household household)
         {
             if (ModelState.IsValid)
             {
@@ -56,12 +58,11 @@ namespace FinancialPlanner.Controllers
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.Find(userId);
                 user.HouseholdId = household.Id;
-
-                userRoleHelper.AddUsertoRole(userId, "Head");
-
+     
                 db.SaveChanges();
 
-
+                userRoleHelper.AddUsertoRole(userId, "Head");
+                await householdHelper.ReauthorizeUserAsync(userId);
                 return RedirectToAction("Details");
             }
 
@@ -124,7 +125,7 @@ namespace FinancialPlanner.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult LeaveHousehold(int Id)
+        public async Task<ActionResult> LeaveHousehold(int Id)
         {
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
@@ -142,8 +143,9 @@ namespace FinancialPlanner.Controllers
             userRoleHelper.RemoveUserFromRole(userId, role);
 
             userRoleHelper.AddUsertoRole(userId, "none");
-
             db.SaveChanges();
+
+            await userRoleHelper.ReauthorizeUserAsync(userId);
             return RedirectToAction("Index", "Home");
         }
         protected override void Dispose(bool disposing)

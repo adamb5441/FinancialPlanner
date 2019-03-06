@@ -18,6 +18,7 @@ namespace FinancialPlanner.Controllers
     {
         private UserRoleHelper userRoleHelper = new UserRoleHelper();
         private ApplicationDbContext db = new ApplicationDbContext();
+        private HouseholdHelper householdHelper = new HouseholdHelper();
 
 
         public ActionResult Index()
@@ -93,15 +94,26 @@ namespace FinancialPlanner.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
-            return View(invitation);
+            var user = db.Users.FirstOrDefault(x => x.Email == invitation.Email);
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("AddToHouse", "Invitations", new { key = invitation.Key });
+            }
+            else if (user != null)
+            {
+                TempData["invited"] = invitation.Key;
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                TempData["invited"] = invitation.Key;
+                return RedirectToAction("Register", "Account");
+            }
+
         }
 
 
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Accept(Guid key)
+        public async Task<ActionResult> AddToHouse(Guid key)
         {
             var invitation = db.Invitations.FirstOrDefault(i => i.Key == key);
             if (invitation.Expires > DateTime.Now || invitation.Expired)
@@ -111,12 +123,17 @@ namespace FinancialPlanner.Controllers
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.Find(userId);
                 user.HouseholdId = invitation.HouseholdId;
-                var role = userRoleHelper.ListUserRoles(userId).FirstOrDefault();
-                userRoleHelper.RemoveUserFromRole(userId, role);
-                userRoleHelper.AddUsertoRole(userId, "Member");
-
                 db.SaveChanges();
+                var role = userRoleHelper.ListUserRoles(userId).FirstOrDefault();
+                if(role != null)
+                {
+                    userRoleHelper.RemoveUserFromRole(userId, role);
 
+                }
+                userRoleHelper.AddUsertoRole(userId, "Member");
+                await householdHelper.ReauthorizeUserAsync(userId);
+
+                TempData["New"] = "new";
                 return RedirectToAction("Index", "Home");
             }
             else
