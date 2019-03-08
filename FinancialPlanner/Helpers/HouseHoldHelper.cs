@@ -20,6 +20,11 @@ namespace FinancialPlanner.Helpers
             var houshold = user.HouseholdId; 
             return houshold;
         }
+        public List<ApplicationUser> GetHouseholdUsers(int Id)
+        {
+            var users = db.Users.Where(x => x.HouseholdId == Id);
+            return users.ToList();
+        }
         public async Task ReauthorizeUserAsync(string userId)
         {
             IAuthenticationManager authenticationManager = HttpContext.Current.GetOwinContext().Authentication;

@@ -33,6 +33,10 @@ namespace FinancialPlanner.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "none" });
             }
+            if (!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Admin" });
+            }
         }
     }
 }

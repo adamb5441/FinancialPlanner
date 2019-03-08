@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
+using Microsoft.AspNet.Identity;
 
 namespace FinancialPlanner.Controllers
 {
@@ -17,7 +18,7 @@ namespace FinancialPlanner.Controllers
         // GET: Transactions
         public ActionResult Index()
         {
-            var transactions = db.Transactions.Include(t => t.Account).Include(t => t.BudgetItem);
+            var transactions = db.Transactions.Include(t => t.Account).Include(t => t.BudgetItem).Include(t => t.enteredBy);
             return View(transactions.ToList());
         }
 
@@ -41,6 +42,7 @@ namespace FinancialPlanner.Controllers
         {
             ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId");
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name");
+            ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -49,10 +51,11 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,AccountId,BudgetItemId,enteredBy,date,Amount,Type,Reaconciled,ReconciledAmout")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,AccountId,BudgetItemId,date,Amount,Type,Reaconciled,ReconciledAmout")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
+                transaction.enteredById = User.Identity.GetUserId();
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -60,6 +63,7 @@ namespace FinancialPlanner.Controllers
 
             ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
+            ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName", transaction.enteredById);
             return View(transaction);
         }
 
@@ -77,6 +81,7 @@ namespace FinancialPlanner.Controllers
             }
             ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
+            ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName", transaction.enteredById);
             return View(transaction);
         }
 
@@ -85,7 +90,7 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,AccountId,BudgetItemId,enteredBy,date,Amount,Type,Reaconciled,ReconciledAmout")] Transaction transaction)
+        public ActionResult Edit([Bind(Include = "Id,AccountId,BudgetItemId,date,Amount,Type,Reaconciled,ReconciledAmout")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +100,7 @@ namespace FinancialPlanner.Controllers
             }
             ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
+            ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName", transaction.enteredById);
             return View(transaction);
         }
 

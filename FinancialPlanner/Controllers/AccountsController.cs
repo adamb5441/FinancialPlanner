@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
+using Microsoft.AspNet.Identity;
 
 namespace FinancialPlanner.Controllers
 {
@@ -17,8 +18,18 @@ namespace FinancialPlanner.Controllers
         // GET: Accounts
         public ActionResult Index()
         {
-            var accounts = db.Accounts.Include(a => a.Household).Include(a => a.User);
-            return View(accounts.ToList());
+            if (User.IsInRole("Admin"))
+            {
+                var accounts = db.Accounts.Include(a => a.Household).Include(a => a.User);
+                return View(accounts.ToList());
+            }
+            else
+            {
+                var userId = User.Identity.GetUserId();
+                var accounts = db.Accounts.Where(x => x.UserId == userId).Include(a => a.Household).Include(a => a.User);
+                return View(accounts.ToList());
+            }
+            
         }
 
         // GET: Accounts/Details/5
@@ -49,10 +60,13 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,HouseholdId,Name,InitialBalance,CurrentBalance,ReconciledBalance,LowBalanceLevel")] Account account)
+        public ActionResult Create([Bind(Include = "Id,HouseholdId,Name,InitialBalance,LowBalanceLevel")] Account account)
         {
             if (ModelState.IsValid)
             {
+                var userId = User.Identity.GetUserId();
+                account.UserId = userId;
+
                 db.Accounts.Add(account);
                 db.SaveChanges();
                 return RedirectToAction("Index");

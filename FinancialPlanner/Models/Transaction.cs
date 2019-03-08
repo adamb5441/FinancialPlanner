@@ -12,7 +12,7 @@ namespace FinancialPlanner.Models
         public int Id { get; set; }
         public int AccountId { get; set; }
         public int? BudgetItemId { get; set; }
-        public string enteredBy { get; set; }
+        public string enteredById { get; set; }
 
         public DateTime date { get; set; }
         [Range(0, 100000000)]
@@ -24,5 +24,6 @@ namespace FinancialPlanner.Models
 
         public virtual Account Account { get; set; } 
         public virtual BudgetItem BudgetItem { get; set; }
+        public virtual ApplicationUser enteredBy { get; set; }
     }
 }

@@ -18,7 +18,7 @@
             @Html.DisplayNameFor(model => model.BudgetItem.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.enteredBy)
+            @Html.DisplayNameFor(model => model.enteredBy.FirstName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.date)
@@ -47,7 +47,7 @@
             @Html.DisplayFor(modelItem => item.BudgetItem.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.enteredBy)
+            @Html.DisplayFor(modelItem => item.enteredBy.FirstName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.date)
