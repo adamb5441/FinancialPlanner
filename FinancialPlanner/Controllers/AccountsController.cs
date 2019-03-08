@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FinancialPlanner.Controllers
 {
+    [Authorize]
     public class AccountsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

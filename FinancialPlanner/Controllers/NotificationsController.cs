@@ -10,6 +10,7 @@ using FinancialPlanner.Models;
 
 namespace FinancialPlanner.Controllers
 {
+    [Authorize]
     public class NotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

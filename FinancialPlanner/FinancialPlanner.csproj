@@ -189,6 +189,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AccountHelper.cs" />
+    <Compile Include="Helpers\BudgetHelper.cs" />
     <Compile Include="Helpers\HouseholdHelper.cs" />
     <Compile Include="Helpers\TransactionHelper.cs" />
     <Compile Include="Helpers\UserRoleHelper.cs" />

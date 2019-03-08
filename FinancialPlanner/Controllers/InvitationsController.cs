@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FinancialPlanner.Controllers
 {
+    [Authorize]
     public class InvitationsController : Controller
     {
         private UserRoleHelper userRoleHelper = new UserRoleHelper();

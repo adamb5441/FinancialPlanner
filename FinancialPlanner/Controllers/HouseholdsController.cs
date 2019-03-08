@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FinancialPlanner.Controllers
 {
+    [Authorize]
     public class HouseholdsController : Controller
     {
         private UserRoleHelper userRoleHelper = new UserRoleHelper();

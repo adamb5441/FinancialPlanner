@@ -120,19 +120,25 @@
                         <span>or</span>
                     </span>
 
-                    <div class="mb-xs text-center">
-                        <a class="btn btn-primary mb-md ml-xs mr-xs">Demo Login</a>
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-login", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("Email", "adamb5441@gmail.com")
+                        @Html.Hidden("Password", "Abc!123")
+                        @Html.Hidden("RememberMe", false)
+                        <div class="mb-xs text-center">
+                            <button class="btn btn-primary mb-md ml-xs mr-xs">Demo Login</button>
+
+                        </div>
+                    }
+                        <p class="text-center">
+                            Don't have an account yet? @Html.ActionLink("sign Up", "Register")
+                        </p>
+                        <p class="text-center">
+                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                        </p>
 
                     </div>
-
-                    <p class="text-center">
-                        Don't have an account yet? @Html.ActionLink("sign Up", "Register")
-                    </p>
-                    <p class="text-center">
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>
-
-                </div>
             </div>
         </div>
     </section>

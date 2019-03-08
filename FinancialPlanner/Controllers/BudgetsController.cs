@@ -7,13 +7,15 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
+using FinancialPlanner.Helpers;
 
 namespace FinancialPlanner.Controllers
 {
+    [Authorize]
     public class BudgetsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private BudgetHelper budgetHelper = new BudgetHelper();
         // GET: Budgets
         public ActionResult Index()
         {
@@ -48,10 +50,11 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,Name,Description,TargetTotal,CurrentTotal")] Budget budget)
+        public ActionResult Create([Bind(Include = "Id,HouseholdId,Name,Description,TargetTotal")] Budget budget)
         {
             if (ModelState.IsValid)
             {
+                budget.CurrentTotal = 0.00m;
                 db.Budgets.Add(budget);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,10 +85,11 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Description,TargetTotal,CurrentTotal")] Budget budget)
+        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Description,TargetTotal")] Budget budget)
         {
             if (ModelState.IsValid)
             {
+                budget.CurrentTotal = budgetHelper.GetCurrentBudget(budget.Id);
                 db.Entry(budget).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
