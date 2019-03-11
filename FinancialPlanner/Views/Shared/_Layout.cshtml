@@ -135,12 +135,7 @@
                                             <span>Accounts</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href=@Url.Action("Details", "Households")>
-                                            <i class="fa fa-home" aria-hidden="true"></i>
-                                            <span>Household</span>
-                                        </a>
-                                    </li>
+
                                 }
                                 @if (Request.IsAuthenticated)
                                 {
@@ -249,6 +244,7 @@
     <script src="~/Scripts/select2.js"></script>
     <script src="~/Scripts/jquery.dataTables.js"></script>
     <script src="~/Scripts/datatables.js"></script>
+    <script src="~/Scripts/snap.svg.js"></script>
     <script src="~/Scripts/liquid.meter.js"></script>
 
     <!-- Specific Page Vendor -->
@@ -262,42 +258,10 @@
     <script src="~/Scripts/theme.init.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-    <script>
-        $('.dtable').DataTable();
 
+    <script src="~/Scripts/examples.charts.js"></script>
 
-        $('#meter').liquidMeter({
-            shape: 'circle',
-            color: '#0088CC',
-            background: '#F9F9F9',
-            fontSize: '24px',
-            fontWeight: '600',
-            stroke: '#F2F2F2',
-            textColor: '#333',
-            liquidOpacity: 0.9,
-            liquidPalette: ['#333'],
-            speed: 3000,
-            animate: !$.browser.mobile
-        });
-
-        /*
-        Liquid Meter Dark
-        */
-        $('#meterDark').liquidMeter({
-            shape: 'circle',
-            color: '#0088CC',
-            background: '#272A31',
-            stroke: '#33363F',
-            fontSize: '24px',
-            fontWeight: '600',
-            textColor: '#FFFFFF',
-            liquidOpacity: 0.9,
-            liquidPalette: ['#0088CC'],
-            speed: 3000,
-            animate: !$.browser.mobile
-        });
-
-    </script>
+    <script>$('.dtable').DataTable();</script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

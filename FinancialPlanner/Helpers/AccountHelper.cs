@@ -49,6 +49,14 @@ namespace FinancialPlanner.Helpers
             }
             return false;
         }
-
+        public bool isUnderLimit(int accountId)
+        {
+            var account = db.Accounts.Find(accountId);
+            if (account.CurrentBalance < account.LowBalanceLevel)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

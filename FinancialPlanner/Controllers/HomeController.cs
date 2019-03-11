@@ -33,6 +33,11 @@ namespace FinancialPlanner.Controllers
                 }
                 foreach(var account in model.Accounts)
                 {
+                    if (accountHelper.isUnderLimit(account.Id))
+                    {
+                        @TempData["warning"] = $"{account.Name} is under your set level!";
+
+                    }
                     if (accountHelper.isOverDraft(account.Id))
                     {
                         @TempData["warning"] = $"{account.Name} is over drafted!";

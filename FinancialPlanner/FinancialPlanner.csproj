@@ -237,6 +237,7 @@
     <Content Include="private.config" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Scripts\datatables.js" />
+    <Content Include="Scripts\examples.charts.js" />
     <Content Include="Scripts\examples.datatables.editable.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -256,6 +257,7 @@
     <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\nanoscroller.js" />
     <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\snap.svg.js" />
     <Content Include="Scripts\theme.custom.js" />
     <Content Include="Scripts\theme.init.js" />
     <Content Include="Scripts\theme.js" />
