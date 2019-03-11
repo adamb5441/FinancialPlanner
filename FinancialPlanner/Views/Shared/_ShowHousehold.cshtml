@@ -5,44 +5,6 @@
 }
 <header class="page-header">
     <h2>@Model.Name- @Model.Greeting</h2>
-
-
-
-    <div class="right-wrapper pull-right">
-            <h2>
-                <a class="btn btn-default" href=@Url.Action("Create", "Budgets")>
-                    Create Budget
-                </a>
-            </h2>
-            <h2>
-                <a href=@Url.Action("Create", "Transactions")>
-                    Deposit
-                </a>
-            </h2>
-
-
-        <div id="userbox" class="userbox">
-
-            <a  style="height: 10vh" href="#" data-toggle="dropdown">
-                <i class="fa fa-cog"></i>
-                Options
-                <i class="fa custom-caret"></i>
-            </a>
-
-
-            <div class="dropdown-menu">
-                <ul class="list-unstyled">
-                    <li>@Html.ActionLink("Edit", "Edit", "Households", new { id = Model.Id }, null)</li>
-                    <li>@Html.ActionLink("Leave Household", "LeaveHousehold", "Households", new { id = Model.Id }, null)</li>
-                    <li>@Html.ActionLink("Invite user", "Create", "Invitations")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-
-
-
 </header>
 
 <div>
@@ -98,7 +60,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="mb-md">
-                            <button id="addToTable" class="btn btn-primary">Add <i class="fa fa-plus"></i></button>
+                            <a href=@Url.Action("Create","Accounts") class="btn btn-primary">Add <i class="fa fa-plus"></i></a>
                         </div>
                     </div>
                 </div>

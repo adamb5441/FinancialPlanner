@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
 using FinancialPlanner.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace FinancialPlanner.Controllers
 {
@@ -41,7 +42,6 @@ namespace FinancialPlanner.Controllers
         // GET: Budgets/Create
         public ActionResult Create()
         {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
             return View();
         }
 
@@ -50,11 +50,14 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,Name,Description,TargetTotal")] Budget budget)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,TargetTotal")] Budget budget)
         {
             if (ModelState.IsValid)
             {
+                var userId = User.Identity.GetUserId();
+                var Household = db.Users.Find(userId).Household;
                 budget.CurrentTotal = 0.00m;
+                budget.HouseholdId = Household.Id;
                 db.Budgets.Add(budget);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -76,7 +79,6 @@ namespace FinancialPlanner.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             return View(budget);
         }
 
@@ -85,12 +87,15 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Description,TargetTotal")] Budget budget)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,TargetTotal")] Budget budget)
         {
             if (ModelState.IsValid)
             {
                 budget.CurrentTotal = budgetHelper.GetCurrentBudget(budget.Id);
-                db.Entry(budget).State = EntityState.Modified;
+                db.Budgets.Attach(budget);
+                db.Entry(budget).Property(x => x.Name).IsModified = true;
+                db.Entry(budget).Property(x => x.Description).IsModified = true;
+                db.Entry(budget).Property(x => x.TargetTotal).IsModified = true;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

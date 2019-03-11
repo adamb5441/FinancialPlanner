@@ -71,8 +71,10 @@ namespace FinancialPlanner.Controllers
         }
 
         // GET: Households/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
+            var userId = User.Identity.GetUserId();
+            var id = db.Users.Find(userId).HouseholdId;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -126,9 +128,10 @@ namespace FinancialPlanner.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public async Task<ActionResult> LeaveHousehold(int Id)
+        public async Task<ActionResult> LeaveHousehold()
         {
             var userId = User.Identity.GetUserId();
+            var Id = db.Users.Find(userId).HouseholdId;
             var user = db.Users.Find(userId);
             if(user == null)
             {

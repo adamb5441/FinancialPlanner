@@ -46,7 +46,9 @@ namespace FinancialPlanner.Controllers
         // GET: Invitations/Create
         public ActionResult Create()
         {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
+            var userId = User.Identity.GetUserId();
+            var Id = db.Users.Find(userId).HouseholdId;
+            ViewBag.HouseholdId = db.Households.Find(Id).Id;
             return View();
         }
 
@@ -83,7 +85,9 @@ namespace FinancialPlanner.Controllers
                 return RedirectToAction("Index","Home");
             }
 
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
+            var userId = User.Identity.GetUserId();
+            var Id = db.Users.Find(userId).HouseholdId;
+            ViewBag.HouseholdId = db.Households.Find(Id).Id;
             return View(invitation);
         }
 

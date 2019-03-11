@@ -23,7 +23,9 @@ namespace FinancialPlanner.Controllers
         // GET: Transactions
         public ActionResult Index()
         {
-            var transactions = db.Transactions.Include(t => t.Account).Include(t => t.BudgetItem).Include(t => t.enteredBy);
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var transactions = db.Transactions.Where(t => t.Account.HouseholdId == user.HouseholdId).Include(t => t.Account).Include(t => t.BudgetItem).Include(t => t.enteredBy);
             return View(transactions.ToList());
         }
 

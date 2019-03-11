@@ -25,8 +25,12 @@ namespace FinancialPlanner.Helpers
             var startDate = new DateTime(now.Year, now.Month, 1);
             
             var items = db.BudgetItems.Where(i => i .date>startDate && i.BudgetId == budgetId);
-            budget.CurrentTotal = items.Sum(i => i.Cost);
-            db.SaveChanges();
+            if (items.Count() > 0)
+            {
+                var cost = items.Sum(i => i.Cost);
+                budget.CurrentTotal = cost;
+                db.SaveChanges();
+            }
         }
         public bool isOverBudget(int budgetId)
         {

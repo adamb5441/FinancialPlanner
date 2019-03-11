@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
 using Microsoft.AspNet.Identity;
+using FinancialPlanner.Helpers;
 
 namespace FinancialPlanner.Controllers
 {
@@ -15,7 +16,7 @@ namespace FinancialPlanner.Controllers
     public class AccountsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private AccountHelper accountHelper = new AccountHelper();
         // GET: Accounts
         public ActionResult Index()
         {
@@ -27,7 +28,8 @@ namespace FinancialPlanner.Controllers
             else
             {
                 var userId = User.Identity.GetUserId();
-                var accounts = db.Accounts.Where(x => x.UserId == userId).Include(a => a.Household);
+                var user = db.Users.Find(userId);
+                var accounts = db.Accounts.Where(x => user.HouseholdId == x.HouseholdId).Include(a => a.Household);
                 return View(accounts.ToList());
             }
             
@@ -51,7 +53,6 @@ namespace FinancialPlanner.Controllers
         // GET: Accounts/Create
         public ActionResult Create()
         {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
@@ -61,20 +62,19 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,Name,InitialBalance,LowBalanceLevel")] Account account)
+        public ActionResult Create([Bind(Include = "Id,Name,InitialBalance,LowBalanceLevel")] Account account)
         {
             if (ModelState.IsValid)
             {
                 var userId = User.Identity.GetUserId();
-                account.UserId = userId;
+                var HouseholdId = db.Users.Find(userId).HouseholdId;
+                account.HouseholdId = HouseholdId;
                 account.CurrentBalance = account.InitialBalance;
                 db.Accounts.Add(account);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", account.UserId);
+            
             return View(account);
         }
 
@@ -90,8 +90,6 @@ namespace FinancialPlanner.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", account.UserId);
             return View(account);
         }
 
@@ -100,16 +98,16 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,HouseholdId,Name,InitialBalance,CurrentBalance,ReconciledBalance,LowBalanceLevel")] Account account)
+        public ActionResult Edit([Bind(Include = "Id,Name,LowBalanceLevel")] Account account)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(account).State = EntityState.Modified;
+                db.Accounts.Attach(account);
+                db.Entry(account).Property(x => x.Name).IsModified = true;
+                db.Entry(account).Property(x => x.LowBalanceLevel).IsModified = true;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", account.UserId);
             return View(account);
         }
 
