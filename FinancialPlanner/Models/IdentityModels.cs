@@ -24,12 +24,10 @@ namespace FinancialPlanner.Models
 
         public virtual Household Household { get; set; }
 
-        public virtual ICollection<Account> Accounts { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
 
         public ApplicationUser()
         {
-            Accounts = new HashSet<Account>();
             Notifications = new HashSet<Notification>();
 
         }

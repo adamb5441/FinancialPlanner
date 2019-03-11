@@ -21,13 +21,13 @@ namespace FinancialPlanner.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-                var accounts = db.Accounts.Include(a => a.Household).Include(a => a.User);
+                var accounts = db.Accounts.Include(a => a.Household);
                 return View(accounts.ToList());
             }
             else
             {
                 var userId = User.Identity.GetUserId();
-                var accounts = db.Accounts.Where(x => x.UserId == userId).Include(a => a.Household).Include(a => a.User);
+                var accounts = db.Accounts.Where(x => x.UserId == userId).Include(a => a.Household);
                 return View(accounts.ToList());
             }
             

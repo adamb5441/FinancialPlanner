@@ -1,1 +1,143 @@
-﻿household info
+﻿@model FinancialPlanner.Models.Household
+
+@{
+    ViewBag.Title = "Details";
+}
+<header class="page-header">
+    <h2>@Html.DisplayFor(model => model.Name) - @Html.DisplayFor(model => model.Greeting)</h2>
+
+    <div class="">
+        <ol class="breadcrumbs"></ol>
+
+        <div id="userbox" class="userbox">
+
+            <a style="height: 10vh" href="#" data-toggle="dropdown">
+                <i class="fa fa-cog"></i>
+                Options
+                <i class="fa custom-caret"></i>
+            </a>
+
+
+            <div class="dropdown-menu">
+                <ul class="list-unstyled">
+                    <li class="divider"></li>
+                    <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</li>
+                    <li>@Html.ActionLink("Leave Household", "LeaveHousehold", new { id = Model.Id })</li>
+                    <li>@Html.ActionLink("Invite user", "Create", "Invitations")</li>
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<div>
+
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                <a href="#" class="fa fa-times"></a>
+            </div>
+
+            <h2 class="panel-title">Liquid Meter</h2>
+            <p class="panel-subtitle">Exclusive Plug-in by Okler Themes</p>
+        </header>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <meter min="0" max="100" value="35" id="meter"></meter>
+                </div>
+                <div class="col-md-6">
+                    <meter min="0" max="100" value="85" id="meterDark"></meter>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="col-md-4">
+        <section class="panel">
+            <header class="panel-heading">
+                <div class="panel-actions">
+                    <a href="#" class="fa fa-caret-down"></a>
+                    <a href="#" class="fa fa-times"></a>
+                </div>
+
+                <h2 class="panel-title">Accounts</h2>
+            </header>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-md">
+                            <button id="addToTable" class="btn btn-primary">Add <i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <table class="dtable table table-bordered table-striped mb-none" id="datatable-editable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Balance</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var account in Model.Accounts)
+                        {
+                            <tr class="gradeX">
+                                <td>@account.Name</td>
+                                <td>@account.CurrentBalance</td>
+                                <td class="actions">
+                                    <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
+                                    <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
+                                    <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                    <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </section>
+
+
+
+        <section class="panel">
+            <header class="panel-heading">
+                <div class="panel-actions">
+                    <a href="#" class="fa fa-caret-down"></a>
+                    <a href="#" class="fa fa-times"></a>
+                </div>
+
+                <h2 class="panel-title">Users</h2>
+            </header>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table mb-none">
+                        <thead>
+                            <tr>
+                                <th>DisplayName</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td>@user.DisplayName</td>
+                                    <td>@user.Email</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>
+

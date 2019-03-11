@@ -21,7 +21,6 @@ namespace FinancialPlanner.Models
 
         public Decimal? LowBalanceLevel { get; set; }
 
-        public virtual ApplicationUser User{get;set;}
         public virtual Household Household{get;set; }
 
 

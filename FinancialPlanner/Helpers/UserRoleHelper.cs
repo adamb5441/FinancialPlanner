@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
+
 namespace FinancialPlanner.Helpers
 {
     public class UserRoleHelper
@@ -71,6 +72,14 @@ namespace FinancialPlanner.Helpers
             var identity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
             authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+        }
+        public string getName(string Id)
+        {
+            var user = db.Users.Find(Id);
+            var name = user.FirstName + " " + user.LastName;
+
+            return name;
+
         }
     }
 }

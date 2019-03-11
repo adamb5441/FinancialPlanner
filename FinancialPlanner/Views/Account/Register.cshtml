@@ -89,7 +89,6 @@
                         <div class="form-group mb-lg">
                             <div class="clearfix">
                                 <label class="pull-left">Password</label>
-                                <a href="pages-recover-password.html" class="pull-right">Lost Password?</a>
                             </div>
                             <div class="input-group input-group-icon">
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
@@ -103,7 +102,6 @@
                         <div class="form-group mb-lg">
                             <div class="clearfix">
                                 <label class="pull-left">Confirm Password</label>
-                                <a href="pages-recover-password.html" class="pull-right">Lost Password?</a>
                             </div>
                             <div class="input-group input-group-icon">
                                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
@@ -114,7 +112,12 @@
                                 </span>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div style="text-align: center">
+                                <button type="submit" class="btn btn-primary hidden-xs">Register</button>
+                                <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Register</button>
+                            </div>
+                        </div>
                     }
                     <span class="mt-lg mb-lg line-thru text-center text-uppercase">
                         <span>or</span>
@@ -131,14 +134,14 @@
 
                         </div>
                     }
-                        <p class="text-center">
-                            Don't have an account yet? @Html.ActionLink("sign Up", "Register")
-                        </p>
-                        <p class="text-center">
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>
+                    <p class="text-center">
+                        Don't have an account yet? @Html.ActionLink("sign Up", "Register")
+                    </p>
+                    <p class="text-center">
+                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                    </p>
 
-                    </div>
+                </div>
             </div>
         </div>
     </section>

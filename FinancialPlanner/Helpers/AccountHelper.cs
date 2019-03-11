@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using FinancialPlanner.Enumeration;
 
 namespace FinancialPlanner.Helpers
 {
@@ -11,33 +12,33 @@ namespace FinancialPlanner.Helpers
         private ApplicationDbContext db = new ApplicationDbContext();
         private HouseholdHelper householdHelper = new HouseholdHelper();
 
-        public bool CanUserAccess(string userId, int accountId )
+        public void getCurrentBalance(int Id)
         {
-            var account = db.Accounts.Find(accountId);
-            if(account.UserId == userId)
+            var account = db.Accounts.Find(Id);
+            var balance = 0.0m;
+            foreach(Transaction transaction in account.Transactions)
             {
-                return true;
-            }
-            if (account.HouseholdId != null)
-            {
-                try
+                if (transaction.Type == TransactionTypes.Withdraw && transaction.Reaconciled)
                 {
-                    var users = householdHelper.GetHouseholdUsers((int)account.HouseholdId);
-                    foreach (var user in users)
-                    {
-                        if(user.Id == userId)
-                        {
-                            return true;
-                        }
-                    }
+                    balance -= transaction.ReconciledAmout;
                 }
-                catch
+                if (transaction.Type == TransactionTypes.Withdraw)
                 {
-                    return false;
+                    balance -= transaction.ReconciledAmout;
+                }
+                if (transaction.Type == TransactionTypes.Deposit && transaction.Reaconciled)
+                {
+                    balance += transaction.ReconciledAmout;
+                }
+                if (transaction.Type == TransactionTypes.Deposit)
+                {
+                    balance += transaction.ReconciledAmout;
                 }
             }
-                return false;
-
+            account.CurrentBalance = balance;
+            db.SaveChanges();
+            
         }
+
     }
 }

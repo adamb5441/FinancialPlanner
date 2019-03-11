@@ -1,5 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity;
-
+@using FinancialPlanner.Helpers; 
+@{ 
+    UserRoleHelper userRoleHelper = new UserRoleHelper();
+    var name = userRoleHelper.getName(User.Identity.GetUserId());
+}
 <!doctype html>
 <html class="fixed sidebar-left-collapsed">
 <head>
@@ -22,6 +26,9 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/magnific-popup.css" rel="stylesheet" />
+    <link href="~/Content/morris.css" rel="stylesheet" />
+    <link href="~/Content/select2.css" rel="stylesheet" />
+    <link href="~/Content/datatables.css" rel="stylesheet" />
     <!-- Theme CSS -->
     <link href="~/Content/theme.css" rel="stylesheet" />
 
@@ -40,7 +47,7 @@
         <header class="header">
             <div class="logo-container">
                 <a href="/" class="logo">
-                    <img src="~/Imgs/Finite.jpg" height="35" alt="Porto Admin"/>
+                    <img src="~/Imgs/Finite.jpg" height="35" alt="Porto Admin" />
                 </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -63,7 +70,7 @@
                                 <i class="fa fa-user"></i>
                             </figure>
                             <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-                                <span class="name">John Doe Junior</span>
+                                <span class="name">@name</span>
                             </div>
 
                             <i class="fa custom-caret"></i>
@@ -120,14 +127,14 @@
                                         <span>Dashboard</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href=@Url.Action("Index","Accounts")>
-                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                        <span>Accounts</span>
-                                    </a>
-                                </li>
                                 @if (User.IsInRole("Head") || User.IsInRole("Member"))
                                 {
+                                    <li>
+                                        <a href=@Url.Action("Index","Accounts")>
+                                            <i class="fa fa-money" aria-hidden="true"></i>
+                                            <span>Accounts</span>
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href=@Url.Action("Details", "Households")>
                                             <i class="fa fa-home" aria-hidden="true"></i>
@@ -239,6 +246,11 @@
     <script src="~/Scripts/magnific-popup.js"></script>
     <script src="~/Scripts/jquery.placeholder.js"></script>
 
+    <script src="~/Scripts/select2.js"></script>
+    <script src="~/Scripts/jquery.dataTables.js"></script>
+    <script src="~/Scripts/datatables.js"></script>
+    <script src="~/Scripts/liquid.meter.js"></script>
+
     <!-- Specific Page Vendor -->
     <!-- Theme Base, Components and Settings -->
     <script src="~/Scripts/theme.js"></script>
@@ -248,9 +260,44 @@
 
     <!-- Theme Initialization Files -->
     <script src="~/Scripts/theme.init.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script>
+        $('.dtable').DataTable();
 
+
+        $('#meter').liquidMeter({
+            shape: 'circle',
+            color: '#0088CC',
+            background: '#F9F9F9',
+            fontSize: '24px',
+            fontWeight: '600',
+            stroke: '#F2F2F2',
+            textColor: '#333',
+            liquidOpacity: 0.9,
+            liquidPalette: ['#333'],
+            speed: 3000,
+            animate: !$.browser.mobile
+        });
+
+        /*
+        Liquid Meter Dark
+        */
+        $('#meterDark').liquidMeter({
+            shape: 'circle',
+            color: '#0088CC',
+            background: '#272A31',
+            stroke: '#33363F',
+            fontSize: '24px',
+            fontWeight: '600',
+            textColor: '#FFFFFF',
+            liquidOpacity: 0.9,
+            liquidPalette: ['#0088CC'],
+            speed: 3000,
+            animate: !$.browser.mobile
+        });
+
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
