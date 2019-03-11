@@ -31,7 +31,7 @@ namespace FinancialPlanner.Helpers
         public bool isOverBudget(int budgetId)
         {
             var budget = db.Budgets.Find(budgetId);
-            if(budget.CurrentTotal < budget.TargetTotal)
+            if(budget.CurrentTotal > budget.TargetTotal)
             {
                 return true;
             }

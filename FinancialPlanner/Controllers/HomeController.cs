@@ -16,6 +16,7 @@ namespace FinancialPlanner.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private HouseholdHelper householdHelper = new HouseholdHelper();
         private BudgetHelper budgetHelper = new BudgetHelper();
+        private AccountHelper accountHelper = new AccountHelper();
         public ActionResult Index()
         {
             var householdId = householdHelper.getUserHousehold(User.Identity.GetUserId());
@@ -25,6 +26,18 @@ namespace FinancialPlanner.Controllers
                 foreach(var budget in model.Budgets)
                 {
                     budgetHelper.updateBudget(budget.Id);
+                    if (budgetHelper.isOverBudget(budget.Id))
+                    {
+                        @TempData["warning"] = $"{budget.Name} is over budget!";
+                    }
+                }
+                foreach(var account in model.Accounts)
+                {
+                    if (accountHelper.isOverDraft(account.Id))
+                    {
+                        @TempData["warning"] = $"{account.Name} is over drafted!";
+
+                    }
                 }
                 return View(model);
             }

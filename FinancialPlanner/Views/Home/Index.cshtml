@@ -22,12 +22,20 @@ else
 @section scripts{
     <script>
         const newuser = '@TempData["New"]';
+        const warning = '@TempData["warning"]';
         if (newuser == 'new') {
             Swal.fire({
                 type: 'success',
                 title: 'You have been added to the house',
                 showConfirmButton: false,
                 timer: 3000
+            })
+        }
+        if (warning != "") {
+            Swal.fire({
+                type: 'warning',
+                title: 'Warning',
+                text: warning.toString()
             })
         }
     </script>
