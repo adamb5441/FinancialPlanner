@@ -65,8 +65,8 @@ namespace FinancialPlanner.Controllers
                 transaction.date = DateTime.Now;
                 transaction.Type = TransactionTypes.Deposit;
                 db.Transactions.Add(transaction);
-                accountHelper.updateCurrentBalance(transaction.AccountId);
                 db.SaveChanges();
+                accountHelper.updateCurrentBalance(transaction.AccountId);
                 return RedirectToAction("Index", "Home");
             }
 

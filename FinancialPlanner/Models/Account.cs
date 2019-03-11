@@ -12,7 +12,7 @@ namespace FinancialPlanner.Models
         public string UserId { get; set; }
         public int? HouseholdId { get; set; }
 
-
+        [Required, MaxLength(40), MinLength(1)]
         public string Name { get; set; }
         [Range(0, 100000000)]
         public Decimal InitialBalance { get; set; }
