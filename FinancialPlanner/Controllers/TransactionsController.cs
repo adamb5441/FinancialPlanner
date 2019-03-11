@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
 using Microsoft.AspNet.Identity;
+using FinancialPlanner.Enumeration;
+using FinancialPlanner.Helpers;
 
 namespace FinancialPlanner.Controllers
 {
@@ -15,6 +17,8 @@ namespace FinancialPlanner.Controllers
     public class TransactionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private AccountHelper accountHelper = new AccountHelper();
+        private HouseholdHelper householdHelper = new HouseholdHelper();
 
         // GET: Transactions
         public ActionResult Index()
@@ -41,9 +45,8 @@ namespace FinancialPlanner.Controllers
         // GET: Transactions/Create
         public ActionResult Create()
         {
-            ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId");
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name");
-            ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName");
+            var householdId = householdHelper.getUserHousehold(User.Identity.GetUserId());
+            ViewBag.AccountId = new SelectList(db.Accounts.Where(a => a.HouseholdId == householdId), "Id", "Name");
             return View();
         }
 
@@ -52,17 +55,21 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,AccountId,BudgetItemId,date,Amount,Type,Reaconciled,ReconciledAmout")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,AccountId,Amount")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
                 transaction.enteredById = User.Identity.GetUserId();
+                transaction.date = DateTime.Now;
+                transaction.Type = TransactionTypes.Deposit;
                 db.Transactions.Add(transaction);
+                accountHelper.updateCurrentBalance(transaction.AccountId);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId", transaction.AccountId);
+            var householdId = householdHelper.getUserHousehold(User.Identity.GetUserId());
+            ViewBag.AccountId = new SelectList(db.Accounts.Where(a => a.HouseholdId == householdId), "Id", "Name", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
             ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName", transaction.enteredById);
             return View(transaction);
@@ -102,6 +109,7 @@ namespace FinancialPlanner.Controllers
             ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
             ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName", transaction.enteredById);
+            accountHelper.updateCurrentBalance(transaction.AccountId);
             return View(transaction);
         }
 
@@ -117,6 +125,7 @@ namespace FinancialPlanner.Controllers
             {
                 return HttpNotFound();
             }
+            accountHelper.updateCurrentBalance(transaction.AccountId);
             return View(transaction);
         }
 

@@ -12,27 +12,28 @@ namespace FinancialPlanner.Helpers
         private ApplicationDbContext db = new ApplicationDbContext();
         private HouseholdHelper householdHelper = new HouseholdHelper();
 
-        public void getCurrentBalance(int Id)
+        public void updateCurrentBalance(int Id)
         {
             var account = db.Accounts.Find(Id);
-            var balance = 0.0m;
-            foreach(Transaction transaction in account.Transactions)
+            var transactions = db.Transactions.Where(t => t.AccountId == Id);
+            var balance = account.InitialBalance;
+            foreach(var transaction in transactions)
             {
                 if (transaction.Type == TransactionTypes.Withdraw && transaction.Reaconciled)
                 {
-                    balance -= transaction.ReconciledAmout;
+                    balance = balance - transaction.ReconciledAmout;
                 }
                 if (transaction.Type == TransactionTypes.Withdraw)
                 {
-                    balance -= transaction.ReconciledAmout;
+                    balance = balance - transaction.Amount;
                 }
                 if (transaction.Type == TransactionTypes.Deposit && transaction.Reaconciled)
                 {
-                    balance += transaction.ReconciledAmout;
+                    balance = balance + transaction.ReconciledAmout;
                 }
                 if (transaction.Type == TransactionTypes.Deposit)
                 {
-                    balance += transaction.ReconciledAmout;
+                    balance = balance + transaction.Amount;
                 }
             }
             account.CurrentBalance = balance;

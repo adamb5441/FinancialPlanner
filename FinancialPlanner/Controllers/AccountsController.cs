@@ -67,7 +67,7 @@ namespace FinancialPlanner.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 account.UserId = userId;
-
+                account.CurrentBalance = account.InitialBalance;
                 db.Accounts.Add(account);
                 db.SaveChanges();
                 return RedirectToAction("Index");

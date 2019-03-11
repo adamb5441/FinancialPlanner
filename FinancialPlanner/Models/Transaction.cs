@@ -16,7 +16,7 @@ namespace FinancialPlanner.Models
 
         public DateTime date { get; set; }
         [Range(0, 100000000)]
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
         public TransactionTypes Type { get; set; }
 
         public bool Reaconciled { get; set; }

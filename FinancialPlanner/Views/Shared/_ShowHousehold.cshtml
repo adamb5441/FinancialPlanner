@@ -4,32 +4,37 @@
     ViewBag.Title = "Details";
 }
 <header class="page-header">
-    <h2>@Html.DisplayFor(model => model.Name) - @Html.DisplayFor(model => model.Greeting)</h2>
+    <h2>@Model.Name- @Model.Greeting</h2>
+    <a href=@Url.Action("Create", "Budgets")>
+        Create Budget
+    </a>
+    <a href=@Url.Action("Create", "Transactions")>
+        Deposit
+        </a>
 
-    <div class="">
-        <ol class="breadcrumbs"></ol>
+        <div class="">
+            <ol class="breadcrumbs"></ol>
 
-        <div id="userbox" class="userbox">
+            <div id="userbox" class="userbox">
 
-            <a style="height: 10vh" href="#" data-toggle="dropdown">
-                <i class="fa fa-cog"></i>
-                Options
-                <i class="fa custom-caret"></i>
-            </a>
+                <a style="height: 10vh" href="#" data-toggle="dropdown">
+                    <i class="fa fa-cog"></i>
+                    Options
+                    <i class="fa custom-caret"></i>
+                </a>
 
 
-            <div class="dropdown-menu">
-                <ul class="list-unstyled">
-                    <li class="divider"></li>
-                    <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</li>
-                    <li>@Html.ActionLink("Leave Household", "LeaveHousehold", new { id = Model.Id })</li>
-                    <li>@Html.ActionLink("Invite user", "Create", "Invitations")</li>
-
-                </ul>
+                <div class="dropdown-menu">
+                    <ul class="list-unstyled">
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</li>
+                        <li>@Html.ActionLink("Leave Household", "LeaveHousehold", new { id = Model.Id })</li>
+                        <li>@Html.ActionLink("Invite user", "Create", "Invitations")</li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-    </div>
+        </div>
 </header>
 
 <div>
@@ -55,7 +60,23 @@
             </div>
         </div>
     </section>
+    @if (Model.Budgets.Count() == 0)
+    {
+        <h2>Create a budget to get started</h2>
+    }
+    else {
+    foreach (var budget in Model.Budgets)
+    {
+        <div class="well">
+            @budget.Name
+            Target: @budget.TargetTotal
+            Actual; @budget.CurrentTotal
+            @Html.ActionLink("Expense", "Create", "BudgetItems",  new { budgetId = budget.Id }, null)
 
+        </div>
+    }
+
+            }
     <div class="col-md-4">
         <section class="panel">
             <header class="panel-heading">

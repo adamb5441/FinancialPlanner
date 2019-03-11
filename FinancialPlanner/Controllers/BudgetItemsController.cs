@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FinancialPlanner.Models;
+using Microsoft.AspNet.Identity;
+using FinancialPlanner.Helpers;
 
 namespace FinancialPlanner.Controllers
 {
@@ -14,6 +16,8 @@ namespace FinancialPlanner.Controllers
     public class BudgetItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private AccountHelper accountHelper = new AccountHelper();
+        private HouseholdHelper householdHelper = new HouseholdHelper();
 
         // GET: BudgetItems
         public ActionResult Index()
@@ -38,9 +42,15 @@ namespace FinancialPlanner.Controllers
         }
 
         // GET: BudgetItems/Create
-        public ActionResult Create()
+        public ActionResult Create(int? BudgetId)
         {
-            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name");
+            if(BudgetId == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.BudgetId = BudgetId;
+            var householdId = householdHelper.getUserHousehold(User.Identity.GetUserId());
+            ViewBag.AccountId = new SelectList(db.Accounts.Where(a => a.HouseholdId == householdId), "Id", "Name");
             return View();
         }
 
@@ -49,15 +59,30 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,BudgetId,Name,Description,Cost")] BudgetItem budgetItem)
+        public ActionResult Create([Bind(Include = "Id,BudgetId,Name,Description,Cost")] BudgetItem budgetItem, int accountId)
         {
             if (ModelState.IsValid)
             {
                 db.BudgetItems.Add(budgetItem);
                 db.SaveChanges();
+                var transaction = new Transaction()
+                {
+                   BudgetItemId = budgetItem.Id,
+                   Amount = budgetItem.Cost,
+                   Type = Enumeration.TransactionTypes.Withdraw,
+                   date=DateTime.Now,
+                   enteredById= User.Identity.GetUserId(),
+                   AccountId = accountId
+                };
+                db.Transactions.Add(transaction);
+
+                db.SaveChanges();
+
+                accountHelper.updateCurrentBalance(accountId);
                 return RedirectToAction("Index");
             }
-
+            var householdId = householdHelper.getUserHousehold(User.Identity.GetUserId());
+            ViewBag.AccountId = new SelectList(db.Accounts.Where(a => a.HouseholdId == householdId), "Id", "Name", accountId);
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
             return View(budgetItem);
         }
