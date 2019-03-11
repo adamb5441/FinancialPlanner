@@ -15,12 +15,17 @@ namespace FinancialPlanner.Controllers
         private UserRoleHelper userRoleHelper = new UserRoleHelper();
         private ApplicationDbContext db = new ApplicationDbContext();
         private HouseholdHelper householdHelper = new HouseholdHelper();
+        private BudgetHelper budgetHelper = new BudgetHelper();
         public ActionResult Index()
         {
             var householdId = householdHelper.getUserHousehold(User.Identity.GetUserId());
             if(householdId != null)
             {
                 var model = db.Households.Find(householdId);
+                foreach(var budget in model.Budgets)
+                {
+                    budgetHelper.updateBudget(budget.Id);
+                }
                 return View(model);
             }
             return View();

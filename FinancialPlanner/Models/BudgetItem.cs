@@ -14,6 +14,7 @@ namespace FinancialPlanner.Models
         public string Description { get; set; }
         [Range(0, 100000000)]
         public decimal Cost { get; set; }
+        public DateTime date { get; set; }
 
         public virtual Budget Budget { get; set; }
     }

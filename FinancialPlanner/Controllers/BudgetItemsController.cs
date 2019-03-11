@@ -63,6 +63,7 @@ namespace FinancialPlanner.Controllers
         {
             if (ModelState.IsValid)
             {
+                budgetItem.date = DateTime.Now;
                 db.BudgetItems.Add(budgetItem);
                 db.SaveChanges();
                 var transaction = new Transaction()

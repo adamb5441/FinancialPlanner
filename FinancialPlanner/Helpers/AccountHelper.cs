@@ -40,6 +40,15 @@ namespace FinancialPlanner.Helpers
             db.SaveChanges();
             
         }
+        public bool isOverDraft(int accountId)
+        {
+            var account = db.Accounts.Find(accountId);
+            if(account.CurrentBalance < 0)
+            {
+                return true;
+            }
+            return false;
+        }
 
     }
 }
