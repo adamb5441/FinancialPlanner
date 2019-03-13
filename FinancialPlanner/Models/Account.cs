@@ -9,7 +9,6 @@ namespace FinancialPlanner.Models
     public class Account
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
         public int? HouseholdId { get; set; }
 
         [Required, MaxLength(40), MinLength(1)]
@@ -17,7 +16,6 @@ namespace FinancialPlanner.Models
         [Range(0, 100000000)]
         public Decimal InitialBalance { get; set; }
         public Decimal CurrentBalance { get; set; }
-        public Decimal ReconciledBalance { get; set; }
 
         public Decimal? LowBalanceLevel { get; set; }
 

@@ -235,6 +235,7 @@
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="private.config" />
+    <None Include="Properties\PublishProfiles\FinitePlanner - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Scripts\datatables.js" />
     <Content Include="Scripts\examples.charts.js" />

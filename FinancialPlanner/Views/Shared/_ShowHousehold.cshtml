@@ -9,43 +9,44 @@
 
 <div>
 
-
-    @if (Model.Budgets.Count() == 0)
-    {
-        <h2>Create a budget to get started</h2>
-    }
-    else
-    {
-        foreach (var budget in Model.Budgets)
+    <div class="col-md-8">
+        @if (Model.Budgets.Count() == 0)
         {
+            <h2>Create a budget to get started</h2>
+        }
+        else
+        {
+            foreach (var budget in Model.Budgets)
+            {
 
-        <div style="text-align: center" class="col-md-2">
-            <section class="panel">
-                <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                        <a href="#" class="fa fa-times"></a>
-                    </div>
+                <div style="text-align: center" class="col-md-4">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <div class="panel-actions">
+                                <a href="#" class="fa fa-caret-down"></a>
+                                <a href="#" class="fa fa-times"></a>
+                            </div>
 
-                    <h2 class="panel-title">@budget.Name</h2>
-                </header>
-                <div class="panel-body">
+                            <h2 class="panel-title">@budget.Name</h2>
+                        </header>
+                        <div class="panel-body">
 
-                        @{
-                            var percent = (budget.CurrentTotal / budget.TargetTotal) * 100;
-                        }
-                        <meter min="0" max="100" value=@percent class="meter"></meter>
+                            @{
+                                var percent = (budget.CurrentTotal / budget.TargetTotal) * 100;
+                            }
+                            <meter min="0" max="100" value=@percent class="meter"></meter>
 
                             Target: @budget.TargetTotal
                             Actual: @budget.CurrentTotal
                             <br />
-                        <a class="btn btn-primary" href=@Url.Action("Create", "BudgetItems", new { budgetId = budget.Id }, null)>Add Expense</a>
+                            <a class="btn btn-primary" href=@Url.Action("Create", "BudgetItems", new { budgetId = budget.Id }, null)>Add Expense</a>
+                        </div>
+                    </section>
                 </div>
-            </section>
-        </div>
-        }
+            }
 
-    }
+        }
+    </div>
     <div class="col-md-4">
         <section class="panel">
             <header class="panel-heading">
