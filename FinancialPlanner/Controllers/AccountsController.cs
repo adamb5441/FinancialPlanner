@@ -72,7 +72,7 @@ namespace FinancialPlanner.Controllers
                 account.CurrentBalance = account.InitialBalance;
                 db.Accounts.Add(account);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             
             return View(account);
@@ -106,7 +106,7 @@ namespace FinancialPlanner.Controllers
                 db.Entry(account).Property(x => x.Name).IsModified = true;
                 db.Entry(account).Property(x => x.LowBalanceLevel).IsModified = true;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(account);
         }
@@ -134,7 +134,7 @@ namespace FinancialPlanner.Controllers
             Account account = db.Accounts.Find(id);
             db.Accounts.Remove(account);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

@@ -18,6 +18,7 @@ namespace FinancialPlanner.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private AccountHelper accountHelper = new AccountHelper();
         private HouseholdHelper householdHelper = new HouseholdHelper();
+        private BudgetHelper budgetHelper = new BudgetHelper();
 
         // GET: BudgetItems
         public ActionResult Index()
@@ -78,9 +79,9 @@ namespace FinancialPlanner.Controllers
                 db.Transactions.Add(transaction);
 
                 db.SaveChanges();
-
+                budgetHelper.GetCurrentBudget(budgetItem.BudgetId);
                 accountHelper.updateCurrentBalance(accountId);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             var householdId = householdHelper.getUserHousehold(User.Identity.GetUserId());
             ViewBag.AccountId = new SelectList(db.Accounts.Where(a => a.HouseholdId == householdId), "Id", "Name", accountId);
@@ -115,7 +116,8 @@ namespace FinancialPlanner.Controllers
             {
                 db.Entry(budgetItem).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                budgetHelper.GetCurrentBudget(budgetItem.BudgetId);
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
             return View(budgetItem);
@@ -144,7 +146,7 @@ namespace FinancialPlanner.Controllers
             BudgetItem budgetItem = db.BudgetItems.Find(id);
             db.BudgetItems.Remove(budgetItem);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
 
         protected override void Dispose(bool disposing)

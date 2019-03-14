@@ -30,6 +30,13 @@
                             <h2 class="panel-title">@budget.Name</h2>
                         </header>
                         <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-offset-10">
+                                    <a href=@Url.Action("Edit", "Budgets", new { id = budget.Id}) class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                    <a href=@Url.Action("Details", "Budgets", new { id = budget.Id}) class="on-default edit-row"><i class="fa fa-book"></i></a>
+                                    <a href=@Url.Action("Delete", "Budgets", new { id = budget.Id}) class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                </div>
+                            </div>
 
                             @{
                                 var percent = (budget.CurrentTotal / budget.TargetTotal) * 100;
@@ -81,10 +88,9 @@
                                 <td>@account.Name</td>
                                 <td>@account.CurrentBalance</td>
                                 <td class="actions">
-                                    <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-                                    <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-                                    <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-                                    <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                    <a href=@Url.Action("Edit", "Accounts", new { id = account.Id}) class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                    <a href=@Url.Action("Details", "Accounts", new { id = account.Id}) class="on-default edit-row"><i class="fa fa-book"></i></a>
+                                    <a href=@Url.Action("Delete", "Accounts", new { id = account.Id}) class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>
 

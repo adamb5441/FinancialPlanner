@@ -64,7 +64,7 @@ namespace FinancialPlanner.Controllers
 
                 userRoleHelper.AddUsertoRole(userId, "Head");
                 await householdHelper.ReauthorizeUserAsync(userId);
-                return RedirectToAction("Details");
+                return RedirectToAction("Details", "Home");
             }
 
             return View(household);
@@ -98,7 +98,7 @@ namespace FinancialPlanner.Controllers
             {
                 db.Entry(household).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(household);
         }
@@ -126,7 +126,7 @@ namespace FinancialPlanner.Controllers
             Household household = db.Households.Find(id);
             db.Households.Remove(household);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
         public async Task<ActionResult> LeaveHousehold()
         {

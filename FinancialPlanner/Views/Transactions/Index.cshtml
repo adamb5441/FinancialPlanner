@@ -12,9 +12,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Account.UserId)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.BudgetItem.Name)
         </th>
         <th>
@@ -40,9 +37,6 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Account.UserId)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.BudgetItem.Name)
         </td>

@@ -60,7 +60,7 @@ namespace FinancialPlanner.Controllers
                 budget.HouseholdId = Household.Id;
                 db.Budgets.Add(budget);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
@@ -97,7 +97,7 @@ namespace FinancialPlanner.Controllers
                 db.Entry(budget).Property(x => x.Description).IsModified = true;
                 db.Entry(budget).Property(x => x.TargetTotal).IsModified = true;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             return View(budget);
@@ -126,7 +126,7 @@ namespace FinancialPlanner.Controllers
             Budget budget = db.Budgets.Find(id);
             db.Budgets.Remove(budget);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)
