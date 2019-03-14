@@ -31,7 +31,7 @@ namespace FinancialPlanner.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Budget budget = db.Budgets.Find(id);
+            Budget budget = db.Budgets.Include(b => b.BudgetItems).FirstOrDefault(x=> x.Id == id);
             if (budget == null)
             {
                 return HttpNotFound();

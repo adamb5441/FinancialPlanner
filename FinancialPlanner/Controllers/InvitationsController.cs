@@ -24,7 +24,8 @@ namespace FinancialPlanner.Controllers
 
         public ActionResult Index()
         {
-            var invitations = db.Invitations.Include(i => i.Household);
+            var hhId = householdHelper.getUserHousehold(User.Identity.GetUserId());
+            var invitations = db.Invitations.Include(i => i.Household).Where(x => x.HouseholdId == hhId);
             return View(invitations.ToList());
         }
 

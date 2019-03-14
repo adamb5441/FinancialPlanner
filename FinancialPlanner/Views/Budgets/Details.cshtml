@@ -9,6 +9,34 @@
         <h1 style="text-align: center">@Model.Name - @Model.Description</h1>
         <h4 style="text-align: center">Budgeted: @Model.TargetTotal Current: @Model.CurrentTotal</h4>
 
+        <hr />
+        <div style="margin: 60px">
+            <table class="dtable table table-bordered table-striped mb-none" id="datatable-editable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Cost</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.BudgetItems)
+                    {
+                        <tr class="gradeX">
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>@item.Cost</td>
+                            <td>@item.date</td>
+                        </tr>
+
+                    }
+                </tbody>
+
+            </table>
+        </div>
     </div>
+
 </div>
 

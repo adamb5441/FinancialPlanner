@@ -42,7 +42,7 @@ namespace FinancialPlanner.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Account account = db.Accounts.Find(id);
+            Account account = db.Accounts.Include(a=>a.Transactions).FirstOrDefault(a => a.Id == id);
             if (account == null)
             {
                 return HttpNotFound();

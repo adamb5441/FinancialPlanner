@@ -4,55 +4,40 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Account</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Household.Name)
-        </dt>
+<div style="display: flex; justify-content: center">
+    <div style="width: 60vw" class="well row">
+        <h1 style="text-align: center">@Model.Name</h1>
+        <h4 style="text-align: center">Balance: @Model.CurrentBalance Alert: @Model.LowBalanceLevel</h4>
 
-        <dd>
-            @Html.DisplayFor(model => model.Household.Name)
-        </dd>
+        <hr />
+        <div style="margin: 60px">
+            <table class="dtable table table-bordered table-striped mb-none" id="datatable-editable">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Enter By</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                <tbody>
+                    @foreach (var transaction in Model.Transactions)
+                    {
+                        <tr class="gradeX">
+                            <td>@transaction.Type</td>
+                            <td>@transaction.Amount</td>
+                            <td>@transaction.enteredBy.DisplayName</td>
+                            <td>@transaction.date</td>
+                        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                    }
+                </tbody>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.InitialBalance)
-        </dt>
+            </table>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.InitialBalance)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentBalance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CurrentBalance)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LowBalanceLevel)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LowBalanceLevel)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

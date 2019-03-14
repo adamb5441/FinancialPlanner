@@ -89,9 +89,6 @@ namespace FinancialPlanner.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId", transaction.AccountId);
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
-            ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName", transaction.enteredById);
             return View(transaction);
         }
 
@@ -100,18 +97,18 @@ namespace FinancialPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,AccountId,BudgetItemId,date,Amount,Type,Reaconciled,ReconciledAmout")] Transaction transaction)
+        public ActionResult Edit([Bind(Include = "Amount,Type,Reaconciled,ReconciledAmout")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(transaction).State = EntityState.Modified;
+                db.Entry(transaction).Property(c => c.Amount).IsModified = true;
+                db.Entry(transaction).Property(c => c.Type).IsModified = true;
+                db.Entry(transaction).Property(c => c.Reaconciled).IsModified = true;
+                db.Entry(transaction).Property(c => c.ReconciledAmout).IsModified = true;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                accountHelper.updateCurrentBalance(transaction.AccountId);
+                return RedirectToAction("Index", "Home");
             }
-            ViewBag.AccountId = new SelectList(db.Accounts, "Id", "UserId", transaction.AccountId);
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
-            ViewBag.enteredById = new SelectList(db.Users, "Id", "FirstName", transaction.enteredById);
-            accountHelper.updateCurrentBalance(transaction.AccountId);
             return View(transaction);
         }
 

@@ -275,7 +275,7 @@ namespace FinancialPlanner.Controllers
             userManager.RemovePassword(User.Identity.GetUserId());
 
             userManager.AddPassword(User.Identity.GetUserId(), model.Password);
-            return RedirectToAction("ResetPasswordConfirmation", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
         //
