@@ -24,6 +24,7 @@
 
     <!-- Vendor CSS -->
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/datepicker3.css" rel="stylesheet" />
     <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/magnific-popup.css" rel="stylesheet" />
     <link href="~/Content/morris.css" rel="stylesheet" />
@@ -129,8 +130,8 @@
                                 </li>
                                 @if (User.IsInRole("Head") || User.IsInRole("Member"))
                                 {
-                                    <li >
-                                        <a href=@Url.Action("Index", "Transactions", null) >
+                                    <li>
+                                        <a href=@Url.Action("Index", "Transactions", null)>
                                             <i class="fa fa-bank" aria-hidden="true"></i>
                                             <span>Transaction</span>
                                         </a>
@@ -283,7 +284,7 @@
                             <div class="form-group">
                                 @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @Value="" } })
+                                    @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @Value = "" } })
                                     @Html.ValidationMessage("Name", "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -397,13 +398,14 @@
 
 
     <!-- Vendor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/jquery.browser.mobile.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/nanoscroller.js"></script>
     <script src="~/Scripts/magnific-popup.js"></script>
     <script src="~/Scripts/jquery.placeholder.js"></script>
-
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/select2.js"></script>
     <script src="~/Scripts/jquery.dataTables.js"></script>
     <script src="~/Scripts/datatables.js"></script>
@@ -424,37 +426,58 @@
 
     <script src="~/Scripts/examples.charts.js"></script>
 
-    <script>
+    <script >
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
-                var min = parseInt($('#min').val(), 10);
-                var max = parseInt($('#max').val(), 10);
-                var age = parseFloat(data[3]) || 0; // use data for the age column
-
+                var min = parseInt($('#minA').val(), 10);
+                var max = parseInt($('#maxA').val(), 10);
+                var amount = parseFloat(data[1]) || 0;
+                var minD = moment($('#minD').val(), 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss');
+                var maxD = moment($('#maxD').val(), 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss');
+                var age = new moment(data[3], 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss') || 0;
+                console.log(maxD);
                 if ((isNaN(min) && isNaN(max)) ||
-                    (isNaN(min) && age <= max) ||
-                    (min <= age && isNaN(max)) ||
-                    (min <= age && age <= max)) {
+                    (isNaN(min) && amount <= max) ||
+                    (min <= amount && isNaN(max)) ||
+                    (min <= amount && amount <= max)) {
                     return true;
                 }
                 return false;
             }
         );
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var minD = moment($('#minD').val(), 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss') || "";
+                var maxD = moment($('#maxD').val(), 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss') || "";
+                var age = new moment(data[3], 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss') || 0;
+                console.log(maxD);
+                if (
+                    (minD == "Invalid date" || maxD == "Invalid date") ||
+                    (moment(age).isSameOrAfter(minD) && moment(age).isSameOrBefore(maxD)) ||
+                    (minD == "Invalid date" && moment(age).isSameOrBefore(maxD)) || 
+                    (moment(age).isSameOrAfter(minD) && maxD == "Invalid date")
+                    ) {
+                    return true;
+                }
+                console.log("this runs")
+                return false;
+            }
+        );
+        var table = $('#example').DataTable();
 
-        $('.dtable').DataTable();
-
-        $('#min, #max').keyup(function () {
+        // Event listener to the two range filtering inputs to redraw on input
+        $('#minA, #maxA').keyup(function () {
+            console.log('this works')
+            table.draw();
+        });
+        $('#minD, #maxD').change(function () {
+            console.log('this works')
             table.draw();
         });
 
-        $(document).ready(function () {
-            var table = $('#example').DataTable();
 
-            // Event listener to the two range filtering inputs to redraw on input
-            $('#min, #max').keyup(function () {
-                table.draw();
-            });
-        });
+        $('.dtable').DataTable();
+
 
     </script>
     @RenderSection("scripts", required: false)

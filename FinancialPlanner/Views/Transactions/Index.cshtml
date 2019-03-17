@@ -4,65 +4,61 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BudgetItem.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.enteredBy.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Reaconciled)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReconciledAmout)
-        </th>
-        <th></th>
-    </tr>
+<div style="display: flex; justify-content: center">
+    <div style="width: 60vw" class="well row">
+        <h1 style="text-align: center">Transactions</h1>
+        <hr />
+        <h4>Search by cost</h4>
+        <p>
+            Min: <input id="minA" />
+            Max: <input id="maxA" />
+        </p>
+        <h4>Search by Date</h4>
+        <div class="form-group">
+            <div class="col-md-6">
+                <div class="input-daterange input-group" data-plugin-datepicker>
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                    <input id="minD" >
+                    <span  class="input-group-addon">to</span>
+                    <input id="maxD" >
+                </div>
+            </div>
+        </div>
+        <div style="margin: 60px">
+            <table class=" table table-bordered table-striped mb-none" id="example">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Enter By</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BudgetItem.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.enteredBy.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Reaconciled)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReconciledAmout)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) 
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                <tbody>
+                    @foreach (var transaction in Model)
+                    {
+                    <tr class="gradeX">
+                        <td>@transaction.Type</td>
+                        <td>@transaction.Amount</td>
+                        <td>@transaction.enteredBy.DisplayName</td>
+                        <td>@transaction.date</td>
+                        <td class="actions">
+                            <a href=@Url.Action("Edit", "Transactions", new { id = transaction.Id}) class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                            <a href=@Url.Action("Delete", "Transactions", new { id = transaction.Id}) class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
 
-</table>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
