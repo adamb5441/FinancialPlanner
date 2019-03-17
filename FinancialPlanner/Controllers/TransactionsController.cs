@@ -48,7 +48,9 @@ namespace FinancialPlanner.Controllers
         public ActionResult Create()
         {
             var householdId = householdHelper.getUserHousehold(User.Identity.GetUserId());
-            ViewBag.AccountId = new SelectList(db.Accounts.Where(a => a.HouseholdId == householdId), "Id", "Name");
+            var accounts = db.Accounts.Where(a => a.HouseholdId == householdId);
+            ViewBag.Accountnum = accounts.Count();
+            ViewBag.AccountId = new SelectList(accounts, "Id", "Name");
             return View();
         }
 
