@@ -64,7 +64,7 @@ namespace FinancialPlanner.Controllers
 
                 userRoleHelper.AddUsertoRole(userId, "Head");
                 await householdHelper.ReauthorizeUserAsync(userId);
-                return RedirectToAction("Details", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(household);
