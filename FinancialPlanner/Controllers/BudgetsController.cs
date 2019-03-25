@@ -64,7 +64,7 @@ namespace FinancialPlanner.Controllers
             }
 
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
-            return View(budget);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Budgets/Edit/5

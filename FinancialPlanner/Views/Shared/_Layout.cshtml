@@ -367,7 +367,6 @@
                 var minD = moment($('#minD').val(), 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss');
                 var maxD = moment($('#maxD').val(), 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss');
                 var age = new moment(data[3], 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss') || 0;
-                console.log(maxD);
                 if ((isNaN(min) && isNaN(max)) ||
                     (isNaN(min) && amount <= max) ||
                     (min <= amount && isNaN(max)) ||
@@ -382,7 +381,6 @@
                 var minD = moment($('#minD').val(), 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss') || "";
                 var maxD = moment($('#maxD').val(), 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss') || "";
                 var age = new moment(data[3], 'DD.MM.YYYY').format('YYYY-MM-DD[T]HH:mm:ss') || 0;
-                console.log(maxD);
                 if (
                     (minD == "Invalid date" || maxD == "Invalid date") ||
                     (moment(age).isSameOrAfter(minD) && moment(age).isSameOrBefore(maxD)) ||
@@ -391,7 +389,6 @@
                     ) {
                     return true;
                 }
-                console.log("this runs")
                 return false;
             }
         );

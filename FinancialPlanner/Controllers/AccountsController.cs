@@ -74,8 +74,8 @@ namespace FinancialPlanner.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
-            
-            return View(account);
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Accounts/Edit/5

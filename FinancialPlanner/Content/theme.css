@@ -244,7 +244,7 @@ a:active {
 @media only screen and (min-width: 1200px) {
 	/* Layout Boxed - Body Tag */
 	html.boxed body {
-		background: url(../images/patterns/denim.png) repeat;
+		background: url(../Imgs/patterns/denim.png) repeat;
 	}
 
 	/* Layout Boxed - Main Wrapper */
@@ -2841,7 +2841,7 @@ blockquote.dark {
 
 /* Arrows */
 .arrow {
-	background: transparent url(../images/arrows.png) no-repeat 0 0;
+	background: transparent url(../Imgs/arrows.png) no-repeat 0 0;
 	width: 47px;
 	height: 120px;
 	display: inline-block;
@@ -8208,7 +8208,7 @@ html.dark .chart-data-selector h2 .multiselect {
 }
 
 .jstree-default .jstree-checkbox {
-	background-image: url(../images/jstree.png);
+	background-image: url(../Imgs/jstree.png);
 }
 
 .jstree-default .jstree-icon {
@@ -8246,7 +8246,7 @@ html.dark .chart-data-selector h2 .multiselect {
 
 /* dark */
 html.dark body .jstree-default .jstree-checkbox {
-	background-image: url(../images/jstree-dark.png);
+	background-image: url(../Imgs/jstree-dark.png);
 }
 
 html.dark body .jstree-default .jstree-hovered {
@@ -15377,7 +15377,7 @@ html.dark .invoice table.table > tbody tr > td {
 
 /* Lock Screen */
 .body-locked {
-	background: url(../images/patterns/noisy_net.png) repeat;
+	background: url(../Imgs/patterns/noisy_net.png) repeat;
 	max-width: none;
 	min-height: 400px;
 }
@@ -15452,7 +15452,7 @@ html.dark .invoice table.table > tbody tr > td {
 }
 /* Lock Screen - Modal */
 .mfp-lock-screen.mfp-bg {
-	background: black url(../images/patterns/noisy_net.png) repeat;
+	background: black url(../Imgs/patterns/noisy_net.png) repeat;
 	opacity: 0.99;
 	z-index: 9998;
 }
