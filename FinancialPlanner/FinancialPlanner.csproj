@@ -345,7 +345,6 @@
     <Content Include="Views\BudgetItems\Edit.cshtml" />
     <Content Include="Views\BudgetItems\Index.cshtml" />
     <Content Include="Views\Households\Create.cshtml" />
-    <Content Include="Views\Households\Delete.cshtml" />
     <Content Include="Views\Households\Details.cshtml" />
     <Content Include="Views\Households\Edit.cshtml" />
     <Content Include="Views\Invitations\Create.cshtml" />

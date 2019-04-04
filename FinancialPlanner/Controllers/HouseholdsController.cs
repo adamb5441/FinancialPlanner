@@ -21,10 +21,6 @@ namespace FinancialPlanner.Controllers
         private HouseholdHelper householdHelper = new HouseholdHelper();
 
         // GET: Households
-        public ActionResult Index()
-        {
-            return View(db.Households.ToList());
-        }
 
         public ActionResult Details()
         {
@@ -103,20 +99,7 @@ namespace FinancialPlanner.Controllers
             return View(household);
         }
 
-        // GET: Households/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Household household = db.Households.Find(id);
-            if (household == null)
-            {
-                return HttpNotFound();
-            }
-            return View(household);
-        }
+
 
         // POST: Households/Delete/5
         [HttpPost, ActionName("Delete")]

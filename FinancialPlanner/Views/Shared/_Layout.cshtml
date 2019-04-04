@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <!-- Web Fonts  -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
     <!-- Vendor CSS -->
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
@@ -330,10 +330,10 @@
 
 
     <!-- Vendor -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/jquery.browser.mobile.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="~/Scripts/nanoscroller.js"></script>
     <script src="~/Scripts/magnific-popup.js"></script>
     <script src="~/Scripts/jquery.placeholder.js"></script>
@@ -358,7 +358,7 @@
 
     <script src="~/Scripts/examples.charts.js"></script>
 
-    <script >
+    <script>
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
                 var min = parseInt($('#minA').val(), 10);
@@ -384,9 +384,9 @@
                 if (
                     (minD == "Invalid date" || maxD == "Invalid date") ||
                     (moment(age).isSameOrAfter(minD) && moment(age).isSameOrBefore(maxD)) ||
-                    (minD == "Invalid date" && moment(age).isSameOrBefore(maxD)) || 
+                    (minD == "Invalid date" && moment(age).isSameOrBefore(maxD)) ||
                     (moment(age).isSameOrAfter(minD) && maxD == "Invalid date")
-                    ) {
+                ) {
                     return true;
                 }
                 return false;
